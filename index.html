@@ -68,7 +68,7 @@
             async function myData(res) {
                 this.data = await res.responseText;
                 this.data = JSON.parse(this.data);
-                 window.preloader.style.display= 'none';
+                 window.preloader[0].style.display= 'none';
                 makeTable(this.data);
             }
             // Step 3: Make table layout according to data response
