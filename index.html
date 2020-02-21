@@ -39,8 +39,7 @@
     <script>
         window.preloader = document.querySelector('.preloader');
         
-        window.onload = function () {            
-            console.log(window.preloader)
+        window.onload = function () {
             data = [];
             footer_message = document.getElementsByTagName('footer');
             var http = new XMLHttpRequest();
@@ -56,7 +55,7 @@
                     footer_message.innerHTML = 'Please wait for Response';
                     http.onreadystatechange = await function () {                       
                         if (this.status == 200) {
-                             window.preloader.style.display= 'none';
+                            window.preloader.style.display= 'none';
                             myData(this);
                             footer_message.innerHTML = 'Data Loaded!';
                         }
@@ -139,22 +138,16 @@
                     modal_design(e);
                 } else if (e.target && e.target.id == 'close_modal') {
                     document.getElementById('demo_modal').style.display = 'none';
-
-                } else if (e.target && e.target.id == 'saveEdit') {
-                    alert();
-                    if (document.forms['editForm']['body'] != '' && document.forms['editForm']['title'] != '') {
-                        this.index = this.index.getAttribute('name');
-                        data[eval(this.inndex - 1)].title = document.forms['editForm']['title'];
-                        data[eval(this.inndex - 1)].body = document.forms['editForm']['body'];
-                        // document.getElementById('demo_modal').style.display = 'none';
+                } else if (e.target && e.target.id == 'saveEdit') {                   
+                    if (document.forms['editForm']['body'] != '' && document.forms['editForm']['title'] != '') {                        
+                        this.index = e.target.name;
+                        // console.log( e.target.name, document.forms['editForm']['title'].value,document.forms['editForm']['body'].value)
+                        data[eval(this.index - 1)].title = document.forms['editForm']['title'].value;
+                        data[eval(this.index - 1)].body = document.forms['editForm']['body'].value;
+                        document.getElementById('demo_modal').style.display = 'none';
                         makeTable(data);
-
-                    } else {
-
-                    }
-
-
-
+                        e.preventDefault();                       
+                    }else{ throw 'Error on Edit form.' }
                     return false;
                 } else {
 
@@ -164,7 +157,7 @@
                 let index = eval(md.target.name - 1);
                 let modal_data = data[index];
                 let mdStr = `
-                <form  method="POST" name="editForm">
+                <form  name="editForm" onsubmit="return false" >
                     <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLiveLabel">Edit/Update User Data</h5>
