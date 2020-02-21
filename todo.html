@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Todo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        input,
+        textarea {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h3 class="nav navbar navbar-light bg-light container-fluid">Core JS List</h3>
+    <br>
+    <div class="container">
+        <div class="input-group">
+            <input type="search" id="search_item" class="form-control" placeholder="Search here through Title.." />
+            <div class="input-group-append">
+                <button class="btn btn-default">No. of Items: <b id="list_count"></b> </button>
+            </div>
+        </div>
+
+        <div class="table-container">
+
+        </div>
+    </div>
+    <footer></footer>
+    <div class="modal fade show" id="demo_modal" style="background: rgba(51, 51, 51, 0.2784313725490196);">
+
+        <div class="modal-dialog" role="document">
+
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            data = [];
+            footer_message = document.getElementsByTagName('footer');
+            var http = new XMLHttpRequest();
+            table_container = document.getElementsByClassName('table-container');
+            //connection data retrive
+            footer_message.innerHTML = 'Please wait for Response';
+            getDataFromServer();            // console.log(data)
+            //Step.1 : Ajax API call through xmlHTTPRequest
+            async function getDataFromServer() {
+                try {
+                    http.open('GET', 'https://jsonplaceholder.typicode.com/posts', true);
+                    http.send();
+                    footer_message.innerHTML = 'Please wait for Response';
+                    http.onreadystatechange = await function () {
+                        if (this.status == 200) {
+                            myData(this);
+                            footer_message.innerHTML = 'Data Loaded!';
+                        }
+                    }
+                } catch (err) {
+                    document.write('No Internet or' + err);
+                }
+            }
+            //Step2: assign data to the variable of API response
+            async function myData(res) {
+                this.data = await res.responseText;
+                this.data = JSON.parse(this.data);
+                makeTable(this.data);
+            }
+            // Step 3: Make table layout according to data response
+            function makeTable(data) {
+                document.getElementById('list_count').innerHTML = data.length;
+                if (data.length > 0) {
+                    let tbStr = '';
+                    tbStr += `<table class="table table-stripe"><thead><tr>
+                                <th>#</th>
+                                <th>UserID</th>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Body</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                    `;
+                    data.forEach(function (items, idex) {
+                        // console.log(items);
+                        tbStr += `<tr for="check_${items.id}">
+                            <td class="form-goup">${idex + 1}<input type="checkbox" id="check_${items.id}"  name="${items.userId}" class="form-control" /></td>
+                            <td><b>${items.userId}</b></td>
+                            <td><span class="badge badge-info">${items.id}</span></td>
+                            <td><b>${items.title.toUpperCase()}</b></td>
+                            <td><small>${items.body.slice(0, 200)}</small></td>
+                            <td class="btn-wrapper" style="width:160px">
+                            <button class="btn btn-danger btn-circle btn-sm" id="deleteBtn" name="${items.id}">Delete</button>
+                            <button class="btn btn-info btn-sm" id="editBtn"  name="${items.id}">Edit</button></td>
+                        </tr>
+                        `
+                    });
+                    tbStr += `</tbody></table>`;
+                    document.querySelector('.table-container').innerHTML = tbStr;
+
+                } else {
+                    document.querySelector('.table-container').innerHTML = '<p>No Item exist.</p>';
+                }
+
+
+
+            }
+            // Search Items through Search Input
+            document.getElementById('search_item').addEventListener('keyup', function (e) {
+                document.getElementsByClassName('table-container').innerHTML = '';
+                // local scope of a varial with this keywork
+                if (e.target.value != '') this.data = data.filter((item) => { if (item.title.search(e.target.value) > 0) { return item } })
+                else this.data = data;
+                console.log(this.data, e.target.value);
+                makeTable(this.data);
+            });
+            // delete Items from Table.
+            document.addEventListener('click', function (e) {
+                if (e.target && e.target.id == 'deleteBtn') {
+                    let isDelete = window.confirm('Are you want to delete it?' + e.target.name);
+                    if (isDelete) {
+                        data.map((el) => {
+                            if (el.id === parseInt(e.target.name)) {
+                                console.log(data.indexOf(el));
+                                data.splice(eval(data.indexOf(el)), 1);
+                                makeTable(data);
+                            }
+                        })
+                    }
+
+                } else if (e.target && e.target.id == 'editBtn') {
+                    document.getElementById('demo_modal').style.display = 'block';
+                    modal_design(e);
+                } else if (e.target && e.target.id == 'close_modal') {
+                    document.getElementById('demo_modal').style.display = 'none';
+
+                } else if (e.target && e.target.id == 'saveEdit') {
+                    alert();
+                    if (document.forms['editForm']['body'] != '' && document.forms['editForm']['title'] != '') {
+                        this.index = this.index.getAttribute('name');
+                        data[eval(this.inndex - 1)].title = document.forms['editForm']['title'];
+                        data[eval(this.inndex - 1)].body = document.forms['editForm']['body'];
+                        // document.getElementById('demo_modal').style.display = 'none';
+                        makeTable(data);
+
+                    } else {
+
+                    }
+
+
+
+                    return false;
+                } else {
+
+                }
+            })
+            function modal_design(md) {
+                let index = eval(md.target.name - 1);
+                let modal_data = data[index];
+                let mdStr = `
+                <form  method="POST" name="editForm">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLiveLabel">Edit/Update User Data</h5>
+                        <button type="button" class="close" id="close_modal">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-inline">ID</label>
+                                    <input type="text" readonly id="id" value="${modal_data.id}" name="id" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-inline">User ID</label>
+                                    <input type="text" readonly id="userId" name="userId" value="${modal_data.userId}" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-inline">Title</label>
+                                    <input type="text" id="title" name="title" value="${modal_data.title}" maxlength="100"
+                                        minlength="10" class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-inline">Body</label>
+                                    <textarea id="body" name="body" class="form-control" height="auto" required>${modal_data.body}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                            id="close_modal">Close</button>
+                        <button type="submit" class="btn btn-success" name="${modal_data.id}" id="saveEdit">Save changes</button>
+                    </div>
+                </div>
+            </form>`;
+
+                let modal = document.getElementById('demo_modal');
+                modal.childNodes[1].innerHTML = mdStr;
+            }
+
+
+            function web_worker() {
+                if (Worker) {
+                   try {
+                        worker = new Worker('./worker.js');
+                        worker.addEventListener('message', function (e) {
+                        console.info('onMessage :', e)
+                    }, false)
+                   } catch (error) {
+                       console.info('Error : ' ,error)
+                   }
+                }else{
+                    console.log('Web-worker not suported')
+                }
+            }
+            web_worker();
+        }
+
+
+    </script>
+</body>
+
+</html>
