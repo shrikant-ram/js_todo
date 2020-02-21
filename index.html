@@ -39,8 +39,7 @@
     <script>
         window.preloader = document.querySelector('.preloader');
         
-        window.onload = function () {
-             window.preloader.style.display= 'none';
+        window.onload = function () {            
             console.log(window.preloader)
             data = [];
             footer_message = document.getElementsByTagName('footer');
@@ -57,6 +56,7 @@
                     footer_message.innerHTML = 'Please wait for Response';
                     http.onreadystatechange = await function () {                       
                         if (this.status == 200) {
+                             window.preloader.style.display= 'none';
                             myData(this);
                             footer_message.innerHTML = 'Data Loaded!';
                         }
