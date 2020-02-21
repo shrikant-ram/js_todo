@@ -5,12 +5,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-        input,
-        textarea {
-            width: 100%;
-            min-height:180px;
-        }
-        .preloader{dispay:absolute; height:100; width:100%; display:flex; justify-content:center; align-item:center;}
+        input,textarea {width: 100%; } 
+        textarea {width: 100%;min-height:180px;}
+        .preloader{height: 100%;width: 100%;display: flex;justify-content: center;align-items: center;position: fixed;z-index: 9899;background: #0000006e;top: 0;left: 0;color: #fff;font-size: 29px;}
     </style>
 </head>
 
@@ -40,7 +37,10 @@
         <p>Loading ...</p>
     </div>
     <script>
+        window.preloader = document.getElementsByClassName('.preloader');
+        
         window.onload = function () {
+            
             data = [];
             footer_message = document.getElementsByTagName('footer');
             var http = new XMLHttpRequest();
@@ -54,7 +54,7 @@
                     http.open('GET', 'https://jsonplaceholder.typicode.com/posts', true);
                     http.send();
                     footer_message.innerHTML = 'Please wait for Response';
-                    http.onreadystatechange = await function () {
+                    http.onreadystatechange = await function () {                       
                         if (this.status == 200) {
                             myData(this);
                             footer_message.innerHTML = 'Data Loaded!';
@@ -68,6 +68,7 @@
             async function myData(res) {
                 this.data = await res.responseText;
                 this.data = JSON.parse(this.data);
+                 window.preloader.style.display= 'none';
                 makeTable(this.data);
             }
             // Step 3: Make table layout according to data response
