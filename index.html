@@ -37,10 +37,10 @@
         <p>Loading ...</p>
     </div>
     <script>
-        window.preloader = document.getElementsByClassName('.preloader');
+        window.preloader = document.getElementsByClassName('.preloader')[0];
         
         window.onload = function () {
-            
+             window.preloader.style.display= 'none';
             data = [];
             footer_message = document.getElementsByTagName('footer');
             var http = new XMLHttpRequest();
@@ -67,8 +67,7 @@
             //Step2: assign data to the variable of API response
             async function myData(res) {
                 this.data = await res.responseText;
-                this.data = JSON.parse(this.data);
-                 window.preloader[0].style.display= 'none';
+                this.data = JSON.parse(this.data);                
                 makeTable(this.data);
             }
             // Step 3: Make table layout according to data response
