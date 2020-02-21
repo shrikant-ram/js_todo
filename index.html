@@ -8,7 +8,9 @@
         input,
         textarea {
             width: 100%;
+            min-height:180px;
         }
+        .preloader{dispay:absolute; height:100; width:100%; display:flex; justify-content:center; align-item:center;}
     </style>
 </head>
 
@@ -24,15 +26,18 @@
         </div>
 
         <div class="table-container">
-
+               
         </div>
-    </div>
+    </div>    
     <footer></footer>
     <div class="modal fade show" id="demo_modal" style="background: rgba(51, 51, 51, 0.2784313725490196);">
 
         <div class="modal-dialog" role="document">
 
         </div>
+    </div>
+    <div class="preloader">
+        <p>Loading ...</p>
     </div>
     <script>
         window.onload = function () {
