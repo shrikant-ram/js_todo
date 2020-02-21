@@ -37,10 +37,11 @@
         <p>Loading ...</p>
     </div>
     <script>
-        window.preloader = document.getElementsByClassName('.preloader')[0];
+        window.preloader = document.querySelector('.preloader');
         
         window.onload = function () {
              window.preloader.style.display= 'none';
+            console.log(window.preloader)
             data = [];
             footer_message = document.getElementsByTagName('footer');
             var http = new XMLHttpRequest();
