@@ -96,7 +96,7 @@
                             <td><small>${items.body.slice(0, 200)}</small></td>
                             <td class="btn-wrapper" style="width:160px">
                             <button class="btn btn-danger btn-circle btn-sm" id="deleteBtn" name="${items.id}">Delete</button>
-                            <button class="btn btn-info btn-sm" id="editBtn"  name="${items.id}">Edit</button></td>
+                            <button class="btn btn-info btn-sm" id="editBtn"  name="${idex}">Edit</button></td>
                         </tr>
                         `
                     });
@@ -114,7 +114,7 @@
             document.getElementById('search_item').addEventListener('keyup', function (e) {
                 document.getElementsByClassName('table-container').innerHTML = '';
                 // local scope of a varial with this keywork
-                if (e.target.value != '') this.data = data.filter((item) => { if (item.title.search(e.target.value) > 0) { return item } })
+                if (e.target.value != '') this.data = data.filter((item) => { if (item.title.search(e.target.value.toLowerCase()) > 0) { return item } })
                 else this.data = data;
                 console.log(this.data, e.target.value);
                 makeTable(this.data);
@@ -142,8 +142,8 @@
                     if (document.forms['editForm']['body'] != '' && document.forms['editForm']['title'] != '') {                        
                         this.index = e.target.name;
                         // console.log( e.target.name, document.forms['editForm']['title'].value,document.forms['editForm']['body'].value)
-                        data[eval(this.index - 1)].title = document.forms['editForm']['title'].value;
-                        data[eval(this.index - 1)].body = document.forms['editForm']['body'].value;
+                        data[eval(this.index)].title = document.forms['editForm']['title'].value;
+                        data[eval(this.index)].body = document.forms['editForm']['body'].value;
                         document.getElementById('demo_modal').style.display = 'none';
                         makeTable(data);
                         e.preventDefault();                       
@@ -154,7 +154,7 @@
                 }
             })
             function modal_design(md) {
-                let index = eval(md.target.name - 1);
+                let index = eval(md.target.name);
                 let modal_data = data[index];
                 let mdStr = `
                 <form  name="editForm" onsubmit="return false" >
@@ -195,7 +195,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"
                             id="close_modal">Close</button>
-                        <button type="submit" class="btn btn-success" name="${modal_data.id}" id="saveEdit">Save changes</button>
+                        <button type="submit" class="btn btn-success" name="${index}" id="saveEdit">Save changes</button>
                     </div>
                 </div>
             </form>`;
