@@ -51,8 +51,8 @@ aCompany.companyDetails();
     ]
     var canvas = document.getElementById('demo');
     // console.log(window.innerHeight);
-    canvas.style.height = (window.innerHeight - 20) + 'px';
-    canvas.style.width = (window.innerWidth - 20) + 'px';
+    canvas.style.height = (window.innerHeight - 150) + 'px';
+    canvas.style.width = (window.innerWidth - 190) + 'px';
     var ctx = canvas.getContext("2d");  
     
     dummy(xPosiotion, yPosiotion);    
@@ -151,6 +151,15 @@ aCompany.companyDetails();
         ctx.fillText("Game Over (*_*)", 40, 70);}
        
     }
+    document.addEventListener("keydown", function(event) {
+               switch(event.which){
+            case 38:{ move('up'); break;}
+            case 40:{ move('down'); break;}
+            case 37:{ move('left'); break;}
+            case 39:{ move('right'); break;}
+            default:{break;}
+        }
+      })
 
 
 })();
