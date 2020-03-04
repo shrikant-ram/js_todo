@@ -9,15 +9,17 @@
 
    
    <style>        
+   body{background-color:#ddd; padding:20px;}
         canvas{
             height:400px;
             width:600px;
-            background-color:#ddd;
+            background-color:#fff;
         }
     </style>
 </head>
 
 <body>
+   <div class="btn-wrapper">
     <button id="startGame" class="btn btn-info">Start</button>
     <button id="restart" class="btn btn-info">Restart</button>
     <button id="up"  class="btn btn-success"><i class="fa fa-arrow-up"></i> </button>
@@ -25,6 +27,7 @@
     <button id="right"  class="btn btn-success"><i class="fa fa-arrow-right"></i> </button>
     <button id="left"  class="btn btn-success"><i class="fa fa-arrow-left"></i> </button>
     <button id="couter"   class="btn btn-secondary" disabled>0:0:0</button>
+   </div>
     <canvas id="demo"></canvas>
     <script src="index.js"></script>
 </body>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <title>Dev OPPS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing: border-box;font-family: 'Poppins', sans-serif;}
+        body{margin: 0;padding: 0;font-family: 'Poppins', sans-serif;}
+        .login_page{height:100vh; width:100vw; display:flex; justify-content:center; align-content:center; align-items: center; background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC); }
+        h1{font-family: 'Poppins', sans-serif; font-size:30px; margin-bottom:30px;}
+        .card{    min-height: 200px;width: 350px;padding: 40px 20px;text-align: center;box-shadow: 0px 0px 9px -2px #afabab;border-radius: 5px;border: 1px solid #ddd;}
+        .card .invalide-message{ background-color:#f33838; width: 100%; text-align:left; padding:1px 12px; font-size: 12px; color: #fff;  }
+        .card .form-group{ margin-bottom:12px;}
+        .card .logo img{height:40px;}
+    </style>
+</head>
+
+<body>
+    <section class="login_page">
+        <article class="card">
+            <figure class="logo"><img src="https://logodownload.org/wp-content/uploads/2014/07/adidas-logo.png" /> </figure>
+            <form>
+                <h1 class="text-center">Login Here</h1>
+                <div class="form-group">
+                    <input type="email" placeholder="Enter email" class="form-control" required/>
+                    <label class="invalide-message" style="display:none;">Invalide Email.</label>
+                </div>
+                <div class="form-group">
+                        <input type="password" placeholder="Enter Password" class="form-control" required/>
+                    <label class="invalide-message">Password required.</label>
+                </div>
+                <div class="form-group">                        
+                    <label class="form-inline"><input type="checkbox" class="form-control" required/>&nbsp; Remember me.</label>
+                </div>
+                    <div class="form-group">
+                            <button class="btn btn-success">Login &nbsp;&nbsp;&nbsp;<i class="fa fa-save"></i> </button>
+                        </div>
+                        <div class="form-group">
+                                <label><a href="#">Create an account.</a> </label>
+                            </div>
+            </form>
+        </article>
+    </section>
+</body>
+
+</html>
